@@ -1,21 +1,19 @@
 export const caesarCipher = (string, key) => {
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
-  const keyAlphabet = alphabet.slice(key) + alphabet.slice(0, key);
-  let newString = "";
+  const shifted = alphabet.slice(key) + alphabet.slice(0, key);
 
-  for (let n = 0; n < string.length; n++) {
-    if (alphabet.indexOf(string.charAt(n).toLowerCase()) > -1) {
-      if (string.charAt(n) === string.charAt(n).toUpperCase()) {
-        let pos = alphabet.indexOf(string.charAt(n).toLowerCase());
-        newString += keyAlphabet.charAt(pos).toUpperCase();
-      } else {
-        let pos = alphabet.indexOf(string.charAt(n));
-        newString += keyAlphabet.charAt(pos);
-      }
-    } else {
-      newString += string.charAt(n);
-    }
-  }
+  return string
+    .split("")
+    .map((char) => {
+      const lower = char.toLowerCase();
+      const index = alphabet.indexOf(lower);
 
-  return newString;
+      // If character is not in alphabet, return it unchanged
+      if (index === -1) return char;
+
+      // Preserve case of original character
+      const shifted_char = shifted[index];
+      return char === lower ? shifted_char : shifted_char.toUpperCase();
+    })
+    .join("");
 };
